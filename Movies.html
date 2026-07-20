@@ -5,16 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>Movies</title>
 </head>
 
 <body>
     <header>
 
-        
+
         <nav id="MovieTypes">
         </nav>
     </header>
+
+    <section id="Detail"></section>
 
 
 
@@ -27,15 +30,73 @@
 
 
 
-        const MovieDetails= async(movie_id)=>{
-            const res =await fetch(`https://api.themoviedb.org/3/movie/${movie_id}`,options);
-            const data =await res.json()
-            console.log(data)
+        const MovieDetails = async (movie_id) => {
+            const res = await fetch(
+                `https://api.themoviedb.org/3/movie/${movie_id}`,
+                options
+            );
 
-        }
+            const data = await res.json();
+            console.log(data);
+            
+            
+           
+
+            const DetailEl = document.querySelector("#Detail");
+            // console.log(data.genres)
+            const year = data.release_date.split("-")[0];
+
+            DetailEl.innerHTML = `
+    <div class="movie-detail">
+
+        <img class="bg-image"
+            src="${TMDB_IMAGE_PATH}${data.backdrop_path}" />
+
+        <div class="overlay">
+
+            <img class="poster"
+                src="${TMDB_IMAGE_PATH}${data.poster_path}" />
+
+            <div class="info">
+
+                <h1>${data.title} <span>(${year})</span></h1>
+
+                <div class="meta">
+                    <button class="ua">
+                       ${data.adult ? "A" : "UA"}
+                    </button>
+
+                    <span>${data.release_date}</span>
+
+                    <span>•</span>
+
+                    <span class = "names">${data.genres.map(genre => `<a href=/genres.html?mid=${genre.id}&gname=${genre.name}>${genre.name}</a>`).join(', ')}</span>
+
+                    <span>•</span>
+
+                    <span>${Math.floor(data.runtime / 60)}h ${data.runtime % 60}m</span>
+                </div>
+                <div>
+                <span></span>    
+                <div>
+
+                <p class="tagline">${data.tagline}</p>
+
+                <h2>Overview</h2>
+
+                <p>${data.overview}</p>
+
+            </div>
+
+        </div>
+
+    </div>
+    `;
+        };
 
 
-        window.addEventListener("load",()=>{
+
+        window.addEventListener("load", () => {
             const params = new URLSearchParams(window.location.search);
             const movieId = params.get("mid");
             console.log(movieId)
