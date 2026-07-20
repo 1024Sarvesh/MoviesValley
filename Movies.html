@@ -77,7 +77,8 @@
                     <span>${Math.floor(data.runtime / 60)}h ${data.runtime % 60}m</span>
                 </div>
                 <div>
-                <span></span>    
+                <span>${data.vote_average*10}%</span>    
+                <span>User Score</span>    
                 <div>
 
                 <p class="tagline">${data.tagline}</p>
@@ -95,12 +96,20 @@
         };
 
 
+        const ActorDetail = async (movie_id) => {
+            const res = await fetch(`https://api.themoviedb.org/3/movie/${movie_id}/credits`,options)
+            const data =await res.json()
+            console.log(data)
+
+        }
+
 
         window.addEventListener("load", () => {
             const params = new URLSearchParams(window.location.search);
             const movieId = params.get("mid");
             console.log(movieId)
             MovieDetails(movieId)
+            ActorDetail(movieId)
         })
 
 
