@@ -93,7 +93,7 @@
       for (let i = 0; i < data.results.length; i++) {
         NowPlayingEl.innerHTML += `
     <div>
-    <a href="/Movies.html?mid=${data.results[i].id}">
+    <a href="/Movies.html?mid=${data.results[i].id}&gname=${data.results[i].original_title}">
       <img src="${TMDB_IMAGE_PATH}${data.results[i].poster_path}" alt="Movie Poster">
 
       <div class="overlay">

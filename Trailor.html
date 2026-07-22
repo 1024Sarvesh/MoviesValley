@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Trailor</title>
+      <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+    <div id="trailer"></div>
+
+
+    <script type="module" src="./main.js"></script>
+    <script type="module">
+
+
+import { options } from "./main.js"
+        import { TMDB_IMAGE_PATH } from "./main.js"
+        import { TMDB_BASE_URL } from "./main.js"
+
+        const MoviesTrailor=async(movie_id)=>{
+            const res = await fetch(`https://api.themoviedb.org/3/movie/${movie_id}/videos`,options);
+            const data = await res.json()
+            console.log(data)
+            
+
+             const trailer = data.results.find(video =>
+        video.type === "Trailer" &&
+        video.site === "YouTube"
+    );
+
+             const trailerDiv = document.getElementById("trailer");
+
+    if(trailer){
+
+        trailerDiv.innerHTML = `
+        <iframe
+            width="100%"
+            height="600"
+            src="https://www.youtube.com/embed/${trailer.key}"
+            allowfullscreen>
+        </iframe>
+        `;
+
+    }
+
+}
+
+
+        
+       window.addEventListener("load", () => {
+            const params = new URLSearchParams(window.location.search);
+            const movieId = params.get("movie_id");
+            console.log(movieId)
+            
+            MoviesTrailor(movieId)
+          
+        })
+    </script>
+</body>
+</html>

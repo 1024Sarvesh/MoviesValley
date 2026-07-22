@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actror In formation</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <section id="actor-info"></section>
+
+
+    <script type="module" src="./main.js"></script>
+    <script type="module">
+        import { options } from "./main.js"
+        import { TMDB_IMAGE_PATH } from "./main.js"
+        import { TMDB_BASE_URL } from "./main.js"
+
+
+        const ActorInformation = async (person_id) => {
+            const res = await fetch(`https://api.themoviedb.org/3/person/${person_id}`, options)
+            const data = await res.json()
+            console.log(data)
+            const Information = document.getElementById("actor-info")
+            Information.innerHTML += `
+
+    <div class="actor-page">
+
+        <img
+        src="${TMDB_IMAGE_PATH}${data.profile_path}"
+        alt="${data.name}">
+
+        <div class="actor-content">
+
+            <h1>${data.name}</h1>
+
+            <h3>Known For</h3>
+            <p>${data.known_for_department}</p>
+
+            <h3>Birthday</h3>
+            <p>${data.birthday ?? "Not Available"}</p>
+
+            <h3>Place of Birth</h3>
+            <p>${data.place_of_birth ?? "Not Available"}</p>
+
+            <h3>Popularity</h3>
+            <p>${data.popularity}</p>
+
+            <h3>Biography</h3>
+            <p>${data.biography || "Biography Not Available"}</p>
+
+        </div>
+
+    </div>
+
+    `
+
+
+        }
+
+
+
+        const params = new URLSearchParams(window.location.search);
+        const personId = params.get("person_id");
+        console.log(personId);
+        ActorInformation(personId)
+
+    </script>
+</body>
+
+</html>

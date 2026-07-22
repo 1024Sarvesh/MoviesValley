@@ -35,7 +35,7 @@
             const GenresContainer = document.getElementById("MoviesData")
             for (let i = 0; i < data.results.length; i++) {
                 GenresContainer.innerHTML += `<div class="Movie-Card">
-    <a href="Movies.html?gid=${data.results[i].id}">
+    <a href="Movies.html?mid=${data.results[i].id}">
         <img src="${TMDB_IMAGE_PATH}${data.results[i].poster_path}" alt="${data.results[i].title}">
 
         <div class="overlay">

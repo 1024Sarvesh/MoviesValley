@@ -18,6 +18,10 @@
     </header>
 
     <section id="Detail"></section>
+    <h1>Movies Casts</h1>
+    <section id="cast-crew"></section>
+    <h1>Movies Cerws</h1>
+    <section id="crewImg"></section>
 
 
 
@@ -38,9 +42,7 @@
 
             const data = await res.json();
             console.log(data);
-            
-            
-           
+            console.log(data.id);
 
             const DetailEl = document.querySelector("#Detail");
             // console.log(data.genres)
@@ -77,8 +79,9 @@
                     <span>${Math.floor(data.runtime / 60)}h ${data.runtime % 60}m</span>
                 </div>
                 <div>
-                <span>${data.vote_average*10}%</span>    
-                <span>User Score</span>    
+                <span>${Math.floor(data.vote_average * 1000) / 100}%</span>    
+                <span>User Score</span> 
+                <span><button class="trailor_btn"><a class="trailor" href ="Trailor.html?movie_id=${data.id}"> ▶ Play Trailor</a></button></span>   
                 <div>
 
                 <p class="tagline">${data.tagline}</p>
@@ -97,9 +100,46 @@
 
 
         const ActorDetail = async (movie_id) => {
-            const res = await fetch(`https://api.themoviedb.org/3/movie/${movie_id}/credits`,options)
-            const data =await res.json()
+            const res = await fetch(`https://api.themoviedb.org/3/movie/${movie_id}/credits`, options)
+            const data = await res.json()
             console.log(data)
+            const castcrewEl = document.getElementById("cast-crew")
+            data.cast.forEach(actor => {
+                // console.log(actor)
+                castcrewEl.innerHTML += `
+                <div class = "castContainer">
+                    <a href="creditDetails.html?person_id=${actor.id}&name=${encodeURIComponent(actor.original_name)}">
+                    <img src ="${TMDB_IMAGE_PATH}${actor.profile_path}" alt="${actor.original_name}" />
+                    <div class = "actor-deatil">
+                    <h4>${actor.name}</h4>
+                    <p>${actor.character}</p>
+                    </div>
+                    </a>
+                    </div>
+                `
+            });
+
+        }
+        const ActorCrewDetail = async (movie_id) => {
+            const res = await fetch(`https://api.themoviedb.org/3/movie/${movie_id}/credits`, options)
+            const data = await res.json()
+            // console.log(data)
+            const crewEl = document.getElementById("crewImg")
+            data.crew.forEach(actor => {
+                // console.log(actor)
+                crewEl.innerHTML += `
+                <div class = "castContainer">
+                    <a href="creditDetails.html?person_id=${actor.id}&name=${encodeURIComponent(actor.original_name)}">
+                    <img src ="${TMDB_IMAGE_PATH}${actor.profile_path}" alt="${actor.original_name}" />
+                    <div class = "actor-deatil">
+                    <h2>${actor.original_name}</h2>
+                    <h4>${actor.department}</h4>
+                    <p>${actor.known_for_department}</p>
+                    </div>
+                    </a>
+                    </div>
+                `
+            });
 
         }
 
@@ -110,6 +150,7 @@
             console.log(movieId)
             MovieDetails(movieId)
             ActorDetail(movieId)
+            ActorCrewDetail(movieId)
         })
 
 

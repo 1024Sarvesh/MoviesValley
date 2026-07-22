@@ -14,7 +14,7 @@ export const TMDB_BASE_URL = "https://api.themoviedb.org/3"
 
 
 const GetData = () => {
-  fetch("https://api.themoviedb.org/3/genre/movie/list", options).then((res) => {
+  fetch(`${TMDB_BASE_URL}/genre/movie/list`, options).then((res) => {
     const MovieListEl = document.querySelector("#MovieTypes")
     res.json().then((data) => {
       data.genres.forEach(element => {
