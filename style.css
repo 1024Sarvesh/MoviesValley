@@ -474,6 +474,85 @@ color: inherit;
 
 
 
+
+
+
+
+.ActorMoviesContainer{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:20px;
+    padding:20px;
+}
+
+.ActorMoviesContainer div{
+    position:relative;   /* <-- Ye sabse important hai */
+    width:180px;
+    height:270px;
+    border-radius:10px;
+    overflow:hidden;
+    cursor:pointer;
+}
+
+.ActorMoviesContainer img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:.4s;
+}
+
+.ActorMoviesContainer .overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.7);
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+
+    padding:15px;
+
+    opacity:0;
+    transition:.4s;
+}
+
+.ActorMoviesContainer div:hover .overlay{
+    opacity:1;
+}
+
+.ActorMoviesContainer div:hover img{
+    transform:scale(1.08);
+}
+
+.ActorMoviesContainer .overlay h2{
+    color:white;
+    font-size:18px;
+    margin-bottom:10px;
+}
+
+.ActorMoviesContainer .overlay p{
+    color:#ddd;
+    font-size:13px;
+
+    display:-webkit-box;
+    -webkit-line-clamp:5;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+}
+
+
+
+
+
+
+
+
+
+
+
 /* ================= RESPONSIVE ================= */
 
 @media(max-width:768px){
@@ -515,6 +594,15 @@ h1{
     height:240px;
 }
 
+.ActorMoviesContainer{
+    gap:12px;
+}
+
+.ActorMoviesContainer div{
+    width:45%;
+    height:240px;
+}
+
 }
 
 @media(max-width:480px){
@@ -543,6 +631,22 @@ h1{
 .Movie-Card .overlay p{
     font-size:11px;
 }
+
+
+.ActorMoviesContainer div{
+    width:100%;
+    height:200px;
+}
+
+.ActorMoviesContainer .overlay h2{
+    font-size:15px;
+}
+
+.ActorMoviesContainer .overlay p{
+    font-size:11px;
+}
+
+
 
 }
 

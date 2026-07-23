@@ -4,13 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actror In formation</title>
+    <title>Actror Information</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
     <section id="actor-info"></section>
+
+    <section id="ActorRelMovies" class="ActorMoviesContainer"></section>
 
 
     <script type="module" src="./main.js"></script>
@@ -60,13 +62,35 @@
 
 
         }
+        const RelatedMovies= async(person_id)=>{
+            const res =await fetch(`https://api.themoviedb.org/3/person/${person_id}/movie_credits`,options)
+            const data =await res.json()
+            console.log(data)
+
+for(let i = 0;i<data.cast.length;i++){
+    const ActorRelMovEl = document.getElementById("ActorRelMovies")
+    ActorRelMovEl.innerHTML += `<div>
+        <a href="/Movies.html?mid=${data.cast[i].id}&gname=${data.cast[i].original_title}">
+      <img src="${TMDB_IMAGE_PATH}${data.cast[i].poster_path}" alt="ActorRelatedMovie Poster">
+
+      <div class="overlay">
+        <h2>${data.cast[i].title}</h2>
+        <p>${data.cast[i].overview}</p>
+      </div>
+      </a>
+        </div>`
+}
+        }
 
 
+window.addEventListener("load",()=>{
 
-        const params = new URLSearchParams(window.location.search);
-        const personId = params.get("person_id");
-        console.log(personId);
-        ActorInformation(personId)
+    const params = new URLSearchParams(window.location.search);
+    const personId = params.get("person_id");
+    console.log(personId);
+    ActorInformation(personId)
+    RelatedMovies(personId)
+})
 
     </script>
 </body>
